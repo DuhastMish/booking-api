@@ -18,6 +18,9 @@ repos:
       language: system
       pass_filenames: false
       entry: python -m mypy --ignore-missing-imports --no-strict-optional
+      args: [
+        api_site
+      ]
       types: [python]
 
     - id: isort

@@ -1,5 +1,6 @@
-from . import app
 from api_site.argparser import api_site_configuration
+
+from . import app
 
 
 def main():
