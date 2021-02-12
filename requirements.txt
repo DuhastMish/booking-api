@@ -1,6 +1,5 @@
 Flask
 
-
 # Development
 pre-commit
 mypy
