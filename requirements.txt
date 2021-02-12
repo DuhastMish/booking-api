@@ -1,1 +1,8 @@
 Flask
+
+
+# Development
+pre-commit
+mypy
+flake8
+isort
