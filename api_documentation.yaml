@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: IE API
+  description: Internet technology API documentation
+servers:
+  - url: 'http://127.0.0.1:5007/api'
+paths:
+  /documentation:
+    get:
+      summary: Get documentation .yaml file.
+      description: Get documentation file with all API entry points
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
