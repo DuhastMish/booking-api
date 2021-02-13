@@ -30,3 +30,11 @@ repos:
       pass_filenames: true
       entry: isort
       types: [python]
+
+    - id: pytest
+      name: pytest
+      stages: [commit]
+      language: system
+      pass_filenames: false
+      entry: python -m pytest tests
+      types: [python]
