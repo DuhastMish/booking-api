@@ -10,6 +10,9 @@ repos:
       language: system
       pass_filenames: true
       entry: python -m flake8
+      args: [
+        api_site
+      ]
       types: [python]
 
     - id: mypy

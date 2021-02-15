@@ -3,6 +3,6 @@ Flask
 # Development
 pre-commit
 mypy
-flake8
+wemake-python-styleguide
 isort
 pytest
