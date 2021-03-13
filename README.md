@@ -7,11 +7,11 @@
 python -m venv .venv
 ```
 Для активации окружения
-    (CommandLine):
+(CommandLine):
 ```
 .venv\Scripts\activate.bat
 ```
-    (PowerShell):
+(PowerShell):
 ```
 .venv\Scripts\Activate.ps1
 ```
