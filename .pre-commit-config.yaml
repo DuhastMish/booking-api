@@ -11,7 +11,7 @@ repos:
       pass_filenames: true
       entry: python -m flake8
       args: [
-        api_site
+        booking_api
       ]
       types: [python]
 
@@ -22,7 +22,7 @@ repos:
       pass_filenames: false
       entry: python -m mypy --ignore-missing-imports --no-strict-optional
       args: [
-        api_site
+        booking_api
       ]
       types: [python]
 
