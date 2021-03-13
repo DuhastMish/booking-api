@@ -6,3 +6,4 @@ mypy
 wemake-python-styleguide
 isort
 pytest
+pytest-cov
