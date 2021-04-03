@@ -50,3 +50,24 @@ def get_documentation():
         attachment_filename='api_documentation.yaml',
         as_attachment=True,
     )
+
+
+@app.route('/api/hotels_post', methods=['POST'])
+def post_hotel():
+    """Book hotel rooms."""
+    args = validate_args(request)
+    return f'Hotels received with args: {args}'
+ 
+ 
+@app.route('/api/hotels_put', methods=['PUT'])
+def put_hotel():
+    """Сhange room and booking dates."""
+    args = validate_args(request)
+    return f'Booking for user id: {args}'
+
+
+@app.route('/api/hotels_delete', methods=['DELETE'])
+def delete_booking():
+    """Delete booking."""
+    args = validate_args(request)
+    return f'Boking deleted with args: {args}'
