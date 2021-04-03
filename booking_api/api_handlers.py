@@ -57,8 +57,8 @@ def post_hotel():
     """Book hotel rooms."""
     args = validate_args(request)
     return f'Hotels received with args: {args}'
- 
- 
+
+
 @app.route('/api/hotels_put', methods=['PUT'])
 def put_hotel():
     """Сhange room and booking dates."""

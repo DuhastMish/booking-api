@@ -1,4 +1,5 @@
 Flask
+sqlalchemy
 
 # Development
 pre-commit

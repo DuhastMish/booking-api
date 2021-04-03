@@ -16,7 +16,7 @@ class Arguments(Enum):
     hotels_post = {'hotel_id', 'apartaments_id', 'date_in', 'date_out'}
     hotel_put = {'booking_id', 'apartaments_id', 'new_date_in', 'new_date_out'}
     booking_delete = {'booking_id'}
-    
+
     @classmethod
     def members(cls):
         """Return all class attributes."""
@@ -35,7 +35,7 @@ def validate_args(request: LocalProxy) -> Dict:
     url_type = request.path.split('/')[-1]
 
     if url_type not in Arguments.members():
-        logging.warning('Can not check request arguments')
+        logging.warning('Can not check requested arguments')
         return {}
 
     required_arguments = getattr(Arguments, url_type).value
