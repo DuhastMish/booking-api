@@ -13,7 +13,10 @@ class Arguments(Enum):
     apartaments = {'hotel_id', 'minimal_price', 'maximal_price', 'hotel_beds'}
     extended_rating = {'hotel_id'}
     booking = {'user_id'}
-
+    hotels_post = {'hotel_id', 'apartaments_id', 'date_in', 'date_out'}
+    hotel_put = {'booking_id', 'apartaments_id', 'new_date_in', 'new_date_out'}
+    booking_delete = {'booking_id'}
+    
     @classmethod
     def members(cls):
         """Return all class attributes."""
