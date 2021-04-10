@@ -1,5 +1,29 @@
 # Internet Technology
 
+## Создание виртуального окружения
+
+Для создания окружения выполните команду:
+```
+python -m venv .venv
+```
+Для активации окружения
+  (CommandLine):
+```
+.venv\Scripts\activate.bat
+```
+  (PowerShell):
+```
+.venv\Scripts\Activate.ps1
+```
+Чтобы установить все пакеты выполните:
+```
+pip install -r requirements.txt
+```
+Установите pre-commit:
+```
+pre-commit install
+```
+
 ## Запуск приложения
 
 Для запуска приложения выполните команду:
