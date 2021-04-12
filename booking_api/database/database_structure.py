@@ -26,14 +26,16 @@ class User(Base):  # noqa: D101
     surname = Column(String, nullable=False)
     role = Column(String, nullable=False)
 
+    booking = relationship("Booking")
+
 
 class Booking(Base):  # noqa: D101
     __tablename__ = 'booking'
 
     booking_id = Column(Integer, primary_key=True)
-    hotel_id = Column(Integer, nullable=False)
-    user_id = Column(Integer, nullable=False)
-    apartament_id = Column(Integer, nullable=False)
+    hotel_id = Column(Integer, ForeignKey('hotel.hotel_id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.user_id'), nullable=False)
+    apartament_id = Column(Integer, ForeignKey('apartament.apartament_id'), nullable=False)
     date_in = Column(DateTime, nullable=False)
     date_out = Column(DateTime, nullable=False)
 
@@ -50,7 +52,8 @@ class Hotel(Base):  # noqa: D101
     city = Column(String, nullable=False)
     extended_rating = Column(String)
 
-    parent = relationship("Apartaments")
+    booking = relationship('Booking')
+    hotel = relationship('Apartament')
 
 
 class Apartament(Base):  # noqa: D101
@@ -62,3 +65,5 @@ class Apartament(Base):  # noqa: D101
     price = Column(Float, nullable=False)
     service_offered = Column(String)
     beds = Column(Integer)
+
+    booking = relationship('Booking')
