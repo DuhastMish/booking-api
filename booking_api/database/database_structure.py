@@ -1,12 +1,18 @@
 """This module works with database."""
 from typing import Any
 
-from sqlalchemy import Column, DateTime, Float, Integer, String
+from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
+                        create_engine)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
 
 Base: Any = declarative_base()
-engine = None
-session = None
+SQL_STRING = 'postgresql://username:password@localhost:5432/dbname'
+engine = create_engine(SQL_STRING)
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 
 class User(Base):  # noqa: D101
@@ -44,12 +50,14 @@ class Hotel(Base):  # noqa: D101
     city = Column(String, nullable=False)
     extended_rating = Column(String)
 
+    parent = relationship("Apartaments")
+
 
 class Apartament(Base):  # noqa: D101
     __tablename__ = 'apartament'
 
     apartament_id = Column(Integer, primary_key=True)
-    hotel_id = Column(Integer, nullable=False)
+    hotel_id = Column(Integer, ForeignKey('hotel.hotel_id'), nullable=False)
     name = Column(String)
     price = Column(Float, nullable=False)
     service_offered = Column(String)
