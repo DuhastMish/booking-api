@@ -67,3 +67,55 @@ class Apartament(Base):  # noqa: D101
     beds = Column(Integer)
 
     booking = relationship('Booking')
+
+
+class Coordinates(Base):  # noqa: D101
+    __tablename__ = 'coordinates'
+
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'), primary_key=True)
+    latitude = Column(String(100), nullable=False)
+    longitude = Column(String(100), nullable=False)
+
+
+class ImportantFacilities(Base):  # noqa: D101
+    __tablename__ = 'important_facilities'
+
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'), primary_key=True)
+    important_facilities = Column(String(100), nullable=False)
+
+
+class NeighborhoodStructures(Base):  # noqa: D101
+    __tablename__ = 'neighborhood_structures'
+
+    neighborhood_structures_id = Column(Integer, primary_key=True)
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'))
+    neighborhood_structure = Column(String(100), nullable=True)
+    structure_type = Column(String(1000), nullable=False)
+    distance = Column(String(100), nullable=False)
+
+
+class ServicesOffered(Base):  # noqa: D101
+    __tablename__ = 'services_offered'
+
+    services_offered_id = Column(Integer, primary_key=True)
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'))
+    services_offered = Column(String(100), nullable=False)
+    service_value = Column(String(1000), nullable=False)
+
+
+class ExtendedRating(Base):  # noqa: D101
+    __tablename__ = 'extended_rating'
+
+    extended_rating_id = Column(Integer, primary_key=True)
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'))
+    rating_name = Column(String(100), nullable=False)
+    rating_value = Column(Float, nullable=False)
+
+
+class ReviewRating(Base):  # noqa: D101
+    __tablename__ = 'review_rating'
+
+    review_rating_id = Column(Integer, primary_key=True)
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'))
+    review_rating_name = Column(String(100), nullable=False)
+    review_rating_count = Column(Integer, nullable=False)
