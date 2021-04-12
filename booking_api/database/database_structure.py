@@ -26,7 +26,7 @@ class User(Base):  # noqa: D101
     surname = Column(String, nullable=False)
     role = Column(String, nullable=False)
 
-    booking = relationship("Booking")
+    booking = relationship('Booking')
 
 
 class Booking(Base):  # noqa: D101
