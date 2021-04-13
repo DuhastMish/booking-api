@@ -39,7 +39,6 @@ class Booking(Base):  # noqa: D101
     date_in = Column(DateTime, nullable=False)
     date_out = Column(DateTime, nullable=False)
 
-    
 
 class Hotel(Base):  # noqa: D101
     __tablename__ = 'hotel'
@@ -56,13 +55,13 @@ class Hotel(Base):  # noqa: D101
     booking = relationship('Booking')
     apartament = relationship('Apartament')
     coordinates = relationship('Coordinates')
-    importantFacilities = relationship('ImportantFacilities')
-    neighborhoodStructures = relationship('NeighborhoodStructures')
-    servicesOffered = relationship('ServicesOffered')
-    extendedRating = relationship('ExtendedRating')
-    reviewRating = relationship('ReviewRating')
-    
-    
+    important_facilities = relationship('ImportantFacilities')
+    neighborhood_structures = relationship('NeighborhoodStructures')
+    services_offered = relationship('ServicesOffered')
+    extended_rating = relationship('ExtendedRating')
+    review_rating = relationship('ReviewRating')
+
+
 class Apartament(Base):  # noqa: D101
     __tablename__ = 'apartament'
 
@@ -83,7 +82,6 @@ class Coordinates(Base):  # noqa: D101
     latitude = Column(String, nullable=False)
     longitude = Column(String, nullable=False)
 
-    
 
 class ImportantFacilities(Base):  # noqa: D101
     __tablename__ = 'important_facilities'
