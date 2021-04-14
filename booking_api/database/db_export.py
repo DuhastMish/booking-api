@@ -8,7 +8,7 @@ from booking_api.database.database_structure import Hotel, session
 class DBExport:
     """Retrieve information from the database."""
 
-    def to_json(self, objects_list: List[Any]):
+    def to_json(self, objects_list: List[Any]) -> List[Dict]:
         """Make from List[cls object] jsonify structure List[Dict]."""
         json_list = []
         for cls_object in objects_list:
@@ -18,7 +18,7 @@ class DBExport:
 
         return json_list
 
-    def get_all_hotels(self, args: Dict):
+    def get_all_hotels(self, args: Dict) -> List[Dict]:
         """Get all hotels."""
         hotels = session.query(Hotel).all()
         return self.to_json(hotels)
