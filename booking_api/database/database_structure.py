@@ -7,7 +7,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
 Base: Any = declarative_base()
-SQL_STRING = 'postgresql://username:password@localhost:5432/dbname'
+
+SQL_STRING = 'postgresql://postgres:postgres@localhost:5432/booking_api'
+# postgresql://username:password@localhost:5432/dbname
 engine = create_engine(SQL_STRING)
 Base.metadata.bind = engine
 
@@ -15,7 +17,15 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-class User(Base):  # noqa: D101
+class Mixin():
+    """Mixin class for database."""
+
+    def to_dict(cls):  # noqa: N805
+        """Return class object as dict."""
+        return cls.__dict__
+
+
+class User(Base, Mixin):  # noqa: D101
     __tablename__ = 'user'
 
     user_id = Column(Integer, primary_key=True)
@@ -29,7 +39,7 @@ class User(Base):  # noqa: D101
     booking = relationship('Booking')
 
 
-class Booking(Base):  # noqa: D101
+class Booking(Base, Mixin):  # noqa: D101
     __tablename__ = 'booking'
 
     booking_id = Column(Integer, primary_key=True)
@@ -40,7 +50,7 @@ class Booking(Base):  # noqa: D101
     date_out = Column(DateTime, nullable=False)
 
 
-class Hotel(Base):  # noqa: D101
+class Hotel(Base, Mixin):  # noqa: D101
     __tablename__ = 'hotel'
 
     hotel_id = Column(Integer, primary_key=True)
@@ -62,7 +72,7 @@ class Hotel(Base):  # noqa: D101
     review_rating = relationship('ReviewRating')
 
 
-class Apartament(Base):  # noqa: D101
+class Apartament(Base, Mixin):  # noqa: D101
     __tablename__ = 'apartament'
 
     apartament_id = Column(Integer, primary_key=True)
@@ -75,7 +85,7 @@ class Apartament(Base):  # noqa: D101
     booking = relationship('Booking')
 
 
-class Coordinates(Base):  # noqa: D101
+class Coordinates(Base, Mixin):  # noqa: D101
     __tablename__ = 'coordinates'
 
     hotel_id = Column(Integer, ForeignKey('hotel.hotel_id'), primary_key=True)
@@ -83,14 +93,14 @@ class Coordinates(Base):  # noqa: D101
     longitude = Column(String, nullable=False)
 
 
-class ImportantFacilities(Base):  # noqa: D101
+class ImportantFacilities(Base, Mixin):  # noqa: D101
     __tablename__ = 'important_facilities'
 
     hotel_id = Column(Integer, ForeignKey('hotel.hotel_id'), primary_key=True)
     important_facilities = Column(String, nullable=False)
 
 
-class NeighborhoodStructures(Base):  # noqa: D101
+class NeighborhoodStructures(Base, Mixin):  # noqa: D101
     __tablename__ = 'neighborhood_structures'
 
     neighborhood_structures_id = Column(Integer, primary_key=True)
@@ -100,7 +110,7 @@ class NeighborhoodStructures(Base):  # noqa: D101
     distance = Column(String, nullable=False)
 
 
-class ServicesOffered(Base):  # noqa: D101
+class ServicesOffered(Base, Mixin):  # noqa: D101
     __tablename__ = 'services_offered'
 
     services_offered_id = Column(Integer, primary_key=True)
@@ -109,7 +119,7 @@ class ServicesOffered(Base):  # noqa: D101
     service_value = Column(String, nullable=False)
 
 
-class ExtendedRating(Base):  # noqa: D101
+class ExtendedRating(Base, Mixin):  # noqa: D101
     __tablename__ = 'extended_rating'
 
     extended_rating_id = Column(Integer, primary_key=True)
@@ -118,10 +128,13 @@ class ExtendedRating(Base):  # noqa: D101
     rating_value = Column(Float, nullable=False)
 
 
-class ReviewRating(Base):  # noqa: D101
+class ReviewRating(Base, Mixin):  # noqa: D101
     __tablename__ = 'review_rating'
 
     review_rating_id = Column(Integer, primary_key=True)
     hotel_id = Column(Integer, ForeignKey('hotel.hotel_id'))
     review_rating_name = Column(String, nullable=False)
     review_rating_count = Column(Integer, nullable=False)
+
+
+Base.metadata.create_all(engine)

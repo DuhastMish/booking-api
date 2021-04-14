@@ -1,10 +1,13 @@
 """This file contains handlers for api."""
 import io
 
-from flask import request, send_file
+from flask import jsonify, request, send_file
 
 from booking_api.app import app, local_storage_manager
+from booking_api.database.db_export import DBExport
 from booking_api.validate_args import validate_args
+
+db_export = DBExport()
 
 
 @app.route('/')
@@ -17,7 +20,9 @@ def index():
 def get_hotels():
     """Return all hotels with several parameters."""
     args = validate_args(request)
-    return f'Hotels received with args: {args}'
+    hotels = db_export.get_all_hotels(args)
+
+    return jsonify(hotels)
 
 
 @app.route('/api/apartaments', methods=['GET'])
@@ -70,4 +75,4 @@ def put_hotel():
 def delete_booking():
     """Delete booking."""
     args = validate_args(request)
-    return f'Boking deleted with args: {args}'
+    return f'Booking deleted with args: {args}'
