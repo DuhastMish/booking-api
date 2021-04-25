@@ -40,7 +40,5 @@ repos:
       language: system
       pass_filenames: false
       entry: python -m pytest tests
-      args: [
-        --cov=booking_api tests/
-      ]
+      args: []
       types: [python]
