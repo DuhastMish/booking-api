@@ -1,10 +1,13 @@
 """This module works with database."""
-from typing import Any
+from typing import Any, Dict, List
 
 from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
                         create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+from werkzeug.local import LocalProxy
+
+from booking_api.validate_args import validate_args
 
 Base: Any = declarative_base()
 
@@ -20,9 +23,28 @@ session = DBSession()
 class Mixin():
     """Mixin class for database."""
 
-    def to_dict(cls):  # noqa: N805
+    def to_dict(self):
         """Return class object as dict."""
-        return cls.__dict__
+        return self.__dict__
+
+    @classmethod
+    def to_json(cls, objects_list: List[Any]) -> List[Dict]:
+        """Make from List[cls object] jsonify structure List[Dict]."""
+        json_list = []
+        for cls_object in objects_list:
+            temp_dict = cls_object.to_dict()
+            temp_dict.pop('_sa_instance_state', None)
+            json_list.append(temp_dict)
+
+        return json_list
+
+    @classmethod
+    def get_all(cls, request: LocalProxy = None) -> List[Dict]:
+        """Get all rows from several database table."""
+        args = validate_args(request)
+        rows = session.query(cls).filter(**args).all()
+
+        return cls.to_json(rows)
 
 
 class User(Base, Mixin):  # noqa: D101

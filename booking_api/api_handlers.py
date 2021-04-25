@@ -4,23 +4,21 @@ import io
 from flask import jsonify, request, send_file
 
 from booking_api.app import app, local_storage_manager
-from booking_api.database.db_export import DBExport
-from booking_api.validate_args import validate_args
-
-db_export = DBExport()
+from booking_api.database.database_structure import (Apartament, Booking,
+                                                     ExtendedRating, Hotel,
+                                                     User)
 
 
 @app.route('/')
 def index():
     """Return index page."""
-    return 'Hello, World!'
+    return local_storage_manager.get_api_documentation()
 
 
 @app.route('/api/hotels', methods=['GET'])
 def get_hotels():
     """Return all hotels with several parameters."""
-    args = validate_args(request)
-    hotels = db_export.get_all_hotels(args)
+    hotels = Hotel.get_all(request)
 
     return jsonify(hotels)
 
@@ -28,22 +26,33 @@ def get_hotels():
 @app.route('/api/apartaments', methods=['GET'])
 def get_apartaments():
     """Return all apartaments with several parameters."""
-    args = validate_args(request)
-    return f'Apartaments received with args: {args}'
+    apartaments = Apartament.get_all(request)
+
+    return jsonify(apartaments)
 
 
 @app.route('/api/extended_rating', methods=['GET'])
 def get_extended_rating():
     """Return extended rating by hotel_id."""
-    args = validate_args(request)
-    return f'Extended rating for hotel id: {args}'
+    ext_rating = ExtendedRating.get_all(request)
+
+    return jsonify(ext_rating)
 
 
 @app.route('/api/booking', methods=['GET'])
 def get_booking():
     """Return all bookings by user_id."""
-    args = validate_args(request)
-    return f'Booking for user id: {args}'
+    booking = Booking.get_all(request)
+
+    return jsonify(booking)
+
+
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    """Return all users with several parameters."""
+    users = User.get_all(request)
+
+    return jsonify(users)
 
 
 @app.route('/api/documentation', methods=['GET'])
@@ -60,19 +69,16 @@ def get_documentation():
 @app.route('/api/hotels_post', methods=['POST'])
 def post_hotel():
     """Book hotel rooms."""
-    args = validate_args(request)
-    return f'Hotels received with args: {args}'
+    return 'Hotels received with args'
 
 
 @app.route('/api/hotels_put', methods=['PUT'])
 def put_hotel():
     """Сhange room and booking dates."""
-    args = validate_args(request)
-    return f'Booking for user id: {args}'
+    return 'Booking for user id'
 
 
 @app.route('/api/hotels_delete', methods=['DELETE'])
 def delete_booking():
     """Delete booking."""
-    args = validate_args(request)
-    return f'Booking deleted with args: {args}'
+    return 'Booking deleted with args'
