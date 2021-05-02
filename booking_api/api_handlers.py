@@ -3,10 +3,12 @@ import io
 
 from flask import jsonify, request, send_file
 
-from booking_api.app import app, local_storage_manager
+from booking_api.app import app, cache, local_storage_manager
 from booking_api.database.database_structure import (Apartament, Booking,
                                                      ExtendedRating, Hotel,
                                                      User)
+
+TIMEOUT = 60
 
 
 @app.route('/')
@@ -16,6 +18,7 @@ def index():
 
 
 @app.route('/api/hotels', methods=['GET'])
+@cache.cached(timeout=TIMEOUT)
 def get_hotels():
     """Return all hotels with several parameters."""
     hotels = Hotel.get_all(request)
@@ -23,6 +26,7 @@ def get_hotels():
     return jsonify(hotels)
 
 
+@cache.cached(timeout=TIMEOUT)
 @app.route('/api/apartaments', methods=['GET'])
 def get_apartaments():
     """Return all apartaments with several parameters."""
@@ -31,6 +35,7 @@ def get_apartaments():
     return jsonify(apartaments)
 
 
+@cache.cached(timeout=TIMEOUT)
 @app.route('/api/extended_rating', methods=['GET'])
 def get_extended_rating():
     """Return extended rating by hotel_id."""
@@ -39,6 +44,7 @@ def get_extended_rating():
     return jsonify(ext_rating)
 
 
+@cache.cached(timeout=TIMEOUT)
 @app.route('/api/booking', methods=['GET'])
 def get_booking():
     """Return all bookings by user_id."""
@@ -47,6 +53,7 @@ def get_booking():
     return jsonify(booking)
 
 
+@cache.cached(timeout=TIMEOUT)
 @app.route('/api/users', methods=['GET'])
 def get_users():
     """Return all users with several parameters."""

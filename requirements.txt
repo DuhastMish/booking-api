@@ -1,5 +1,7 @@
 Flask
 sqlalchemy
+celery
+flask_caching
 
 # Development
 pre-commit
