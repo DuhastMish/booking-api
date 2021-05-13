@@ -7,12 +7,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from werkzeug.local import LocalProxy
 
+from booking_api.app import cache
+from booking_api.constants import CACHE_DEFAULT_TIMOUT_DB as timeout_db
+from booking_api.constants import SQL_STRING
 from booking_api.validate_args import validate_args
 
 Base: Any = declarative_base()
 
-SQL_STRING = 'postgresql://postgres:postgres@localhost:5432/booking_api'
-# postgresql://username:password@localhost:5432/dbname
 engine = create_engine(SQL_STRING)
 Base.metadata.bind = engine
 
@@ -39,6 +40,7 @@ class Mixin():
         return json_list
 
     @classmethod
+    @cache.memoize(timeout=timeout_db)
     def get_all(cls, request: LocalProxy = None) -> List[Dict]:
         """Get all rows from several database table."""
         args = validate_args(request)
