@@ -16,7 +16,7 @@ def index():
     """Return index page."""
     # Checks that redis cache works.
     from datetime import datetime
-    return f"Already cached in {datetime.now()} for {timeout} sec."
+    return f"Already cached in {datetime.now().time().replace(microsecond=0)} for {timeout} sec."
 
 
 @app.route('/api/hotels', methods=['GET'])
