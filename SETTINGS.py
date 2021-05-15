@@ -1,3 +1,5 @@
+from booking_api.constants import SQL_STRING
+
 redis_url = 'redis://localhost:6379/0'
 
 
@@ -10,7 +12,7 @@ class Redis(object):  # noqa: D101, D100
 
 class Celery(object):  # noqa: D101, D100
     CELERY_BROKER_URL = redis_url
-    CELERY_RESULT_BACKEND = redis_url
+    CELERY_BACKEND = 'db+' + SQL_STRING
 
 
 class Config(object):  # noqa: D101, D100

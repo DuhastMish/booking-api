@@ -41,7 +41,7 @@ class Mixin():
 
     @classmethod
     @cache.memoize(timeout=timeout_db)
-    def get_all(cls, request: LocalProxy = None) -> List[Dict]:
+    def get_all(cls, request: LocalProxy) -> List[Dict]:
         """Get all rows from several database table."""
         args = prepare_args(cls, request)
         rows = session.query(cls).filter(*args).all()

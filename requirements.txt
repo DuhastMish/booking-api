@@ -2,6 +2,7 @@ Flask
 sqlalchemy
 celery
 flask_caching
+redis
 
 # Development
 pre-commit

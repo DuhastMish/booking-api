@@ -1,13 +1,14 @@
 """This file contains handlers for api."""
 import io
+from random import choice, randint, uniform
 
 from flask import jsonify, request, send_file
 
-from booking_api.app import app, cache, local_storage_manager
+from booking_api.app import app, cache, celery, local_storage_manager
 from booking_api.constants import CACHE_DEFAULT_TIMEOUT as timeout
 from booking_api.database.database_structure import (Apartament, Booking,
                                                      ExtendedRating, Hotel,
-                                                     User)
+                                                     User, session)
 
 
 @app.route('/')
@@ -91,3 +92,27 @@ def put_hotel():
 def delete_booking():
     """Delete booking."""
     return 'Booking deleted with args'
+
+
+@app.route('/api/insert_hotel')
+def insert_hotel():
+    """Insert pseudo hotels."""
+    hotels_insert.delay()
+    return "Pseudo hotel added"
+
+
+@celery.task(name='celery.insert_hotel')
+def hotels_insert():
+    """Insert pseudo hotels."""
+    hotel_names = ['First World Hotel & Plaza', 'CityCenter', 'MGM Grand', 'Ambassador City Jomtien']
+    cities = ['Jakarta', 'Manila', 'Istanbul', 'Lagos', 'Paris', 'London', 'Toronto']
+    for i in range(100):
+        hotel_obj = Hotel(
+            name=choice(hotel_names),
+            stars=randint(1, 5),
+            rating=round(uniform(0, 10), 2),
+            price=randint(1000, 15000),
+            city=choice(cities),
+        )
+        session.add(hotel_obj)
+    session.commit()

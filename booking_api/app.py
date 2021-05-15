@@ -1,9 +1,9 @@
 """Main application module."""
-from celery import Celery
 from flask import Flask
 from flask_caching import Cache
 
 from booking_api.argparser import booking_api_configuration
+from booking_api.celery import make_celery
 from booking_api.local_storage_manager import LocalStorage
 
 local_storage_manager = LocalStorage()
@@ -22,6 +22,6 @@ else:
 
 cache = Cache(app, config=app.config)
 
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery = make_celery(app)
 
 from booking_api import api_handlers  # noqa: F401
