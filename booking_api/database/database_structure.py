@@ -10,7 +10,7 @@ from werkzeug.local import LocalProxy
 from booking_api.app import cache
 from booking_api.constants import CACHE_DEFAULT_TIMOUT_DB as timeout_db
 from booking_api.constants import SQL_STRING
-from booking_api.validate_args import validate_args
+from booking_api.validate_args import prepare_args
 
 Base: Any = declarative_base()
 
@@ -43,8 +43,8 @@ class Mixin():
     @cache.memoize(timeout=timeout_db)
     def get_all(cls, request: LocalProxy = None) -> List[Dict]:
         """Get all rows from several database table."""
-        args = validate_args(request)
-        rows = session.query(cls).filter(**args).all()
+        args = prepare_args(cls, request)
+        rows = session.query(cls).filter(*args).all()
 
         return cls.to_json(rows)
 

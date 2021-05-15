@@ -15,8 +15,8 @@ from booking_api.database.database_structure import (Apartament, Booking,
 def index():
     """Return index page."""
     # Checks that redis cache works.
-    from time import ctime
-    return ctime()
+    from datetime import datetime
+    return f"Already cached in {datetime.now()} for {timeout} sec."
 
 
 @app.route('/api/hotels', methods=['GET'])

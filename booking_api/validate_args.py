@@ -9,7 +9,7 @@ from werkzeug.local import LocalProxy
 class Arguments(Enum):
     """Available arguments."""
 
-    hotels = {'minimal_price', 'star', 'city', 'maximal_price', 'minimal_rating'}
+    hotels = {'minimal_price', 'stars', 'city', 'maximal_price', 'minimal_rating'}
     apartaments = {'hotel_id', 'minimal_price', 'maximal_price', 'hotel_beds'}
     extended_rating = {'hotel_id'}
     booking = {'user_id'}
@@ -48,3 +48,20 @@ def validate_args(request: LocalProxy) -> Dict:
         ))
 
     return {key: value for key, value in request.args.items() if key in required_arguments}  # noqa: WPS110
+
+
+def prepare_args(db_class, request: LocalProxy):
+    arguments_dict = validate_args(request)
+    arguments_list = []
+
+    for argument, arg_value in arguments_dict.items():
+        if "minimal" in argument:
+            prepeared_arg = argument.split("_")[-1]
+            arguments_list.append(getattr(db_class, prepeared_arg) >= arg_value)
+        elif "maximal" in argument:
+            prepeared_arg = argument.split("_")[-1]
+            arguments_list.append(getattr(db_class, prepeared_arg) <= arg_value)
+        else:
+            arguments_list.append(getattr(db_class, argument) == arg_value)
+
+    return arguments_list
