@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.1.0
   title: IE API
   description: Internet technology API documentation
 servers:
-  - url: 'http://127.0.0.1:5007/api'
+  - url: 'http://127.0.0.1:5001/api'
 paths:
   /documentation:
     get:
@@ -15,3 +15,213 @@ paths:
           description: Success
         '405':
           description: Method Not Allowed
+  /hotels:
+    get:
+      summary: Return all hotels.
+      description: Return all hotels with several parameters.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: minimal_price
+          schema:
+            type: integer
+          description: "Минимальная цена"
+          required: false
+        - in: query
+          name: stars
+          schema:
+            type: integer
+          description: "Звезды"
+          required: false
+        - in: query
+          name: city
+          schema:
+            type: string
+          description: "Город"
+          required: false
+        - in: query
+          name: maximal_price
+          schema:
+            type: integer
+          description: "Максимальная цена"
+          required: false
+        - in: query
+          name: minimal_rating
+          schema:
+            type: integer
+          description: "Минимальный рейтинг"
+          required: false
+
+  /apartaments:
+    get:
+      summary: Return all hotels.
+      description: Return all hotels with several parameters.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: hotel_id
+          schema:
+            type: integer
+          description: "Айди_отеля"
+          required: false
+        - in: query
+          name: minimal_price
+          schema:
+            type: integer
+          description: "Минимальная цена"
+          required: false
+        - in: query
+          name: maximal_price
+          schema:
+            type: string
+          description: "Максимальная цена"
+          required: false
+        - in: query
+          name: hotel_beds
+          schema:
+            type: integer
+          description: "Гостиничные кровати"
+          required: false
+  /extended_rating:
+    get:
+      summary: Return all hotels.
+      description: Return all hotels with several parameters.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: hotel_id
+          schema:
+            type: integer
+          description: "Идентификационный номер отеля"
+          required: false
+  /booking:
+    get:
+      summary: Return all bookings.
+      description: Return all booking with several parameters.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: user_id
+          schema:
+            type: integer
+          description: "Ид. пользователя"
+          required: false
+
+  /users:
+    get:
+      summary: Return all users.
+      description: Return all users.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+  /insert_pseudo:
+    get:
+      summary: Create some hotels and apartaments.
+      description: Create some hotels and apartaments with random values.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+  /booking/create:
+    post:
+      summary: Create booking.
+      description: Book hotel rooms.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: hotel_id
+          schema:
+            type: integer
+          description: "Идентификационный номер отеля"
+          required: true
+        - in: query
+          name: apartaments_id
+          schema:
+            type: integer
+          description: "Идентификационный номер апартаментов"
+          required: true
+        - in: query
+          name: user_id
+          schema:
+            type: integer
+          description: "Ид. номер пользователя"
+          required: true
+        - in: query
+          name: date_in
+          schema:
+            type: string
+          description: "Дата заезда"
+          required: true
+        - in: query
+          name: date_out
+          schema:
+            type: string
+          description: "Дата выезда"
+          required: true
+  /booking/update:
+    put:
+      summary: Update booking.
+      description: Update booking dates.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: booking_id
+          schema:
+            type: integer
+          description: "Идентификатор бронирования"
+          required: true
+        - in: query
+          name: date_in
+          schema:
+            type: string
+          description: "Новая дата заезда"
+          required: false
+        - in: query
+          name: date_out
+          schema:
+            type: string
+          description: "Новая дата выезда"
+          required: false
+  /booking/delete:
+    delete:
+      summary: Delete booking.
+      description: Delete booking by ID.
+      responses:
+        '200':
+          description: Success
+        '405':
+          description: Method Not Allowed
+      parameters:
+        - in: query
+          name: booking_id
+          schema:
+            type: integer
+          description: "Идентификатор бронирования"
+          required: true

@@ -76,28 +76,28 @@ def get_documentation():
     )
 
 
-@app.route('/api/booking/create')
+@app.route('/api/booking/create', methods=['POST'])
 def create_booking():
     """Book hotel rooms."""
     Booking.create(request)
     return redirect(url_for('get_booking'))
 
 
-@app.route('/api/booking/update')
+@app.route('/api/booking/update', methods=['PUT'])
 def update_booking():
     """Book hotel rooms."""
     Booking.update(request)
     return redirect(url_for('get_booking'))
 
 
-@app.route('/api/booking/delete')
+@app.route('/api/booking/delete', methods=['DELETE'])
 def delete_booking():
     """Delete booking."""
     Booking.delete(request)
     return redirect(url_for('get_booking'))
 
 
-@app.route('/api/insert_pseudo', methods=['POST'])
+@app.route('/api/insert_pseudo')
 def insert_pseudo():
     """Insert pseudo hotels."""
     hotels_insert.delay()
