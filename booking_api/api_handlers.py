@@ -76,19 +76,25 @@ def get_documentation():
     )
 
 
-@app.route('/api/hotels_post', methods=['POST'])
-def post_hotel():
+@app.route('/api/add_booking', methods=['POST'])
+def add_booking():
     """Book hotel rooms."""
     return 'Hotels received with args'
 
 
-@app.route('/api/hotels_delete', methods=['DELETE'])
+@app.route('/api/add_hotel', methods=['POST'])
+def add_hotel():
+    """Add hotel rooms."""
+    return 'Hotels received with args'
+
+
+@app.route('/api/del_booking', methods=['DELETE'])
 def delete_booking():
     """Delete booking."""
     return 'Booking deleted with args'
 
 
-@app.route('/api/insert_pseudo')
+@app.route('/api/insert_pseudo', methods=['POST'])
 def insert_pseudo():
     """Insert pseudo hotels."""
     hotels_insert.delay()
@@ -110,7 +116,7 @@ def hotels_insert():
                          'Номер "Четыре сезона" с кроватью размера "king-size"']
 
     cities = ['Jakarta', 'Manila', 'Istanbul', 'Lagos', 'Paris', 'London', 'Toronto']
-    for _i in range(randint(1, 10)):
+    for _index in range(randint(1, 10)):
         hotel_obj = Hotel(
             name=choice(hotel_names),
             stars=randint(1, 5),

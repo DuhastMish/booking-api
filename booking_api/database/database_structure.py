@@ -48,6 +48,11 @@ class Mixin():
 
         return cls.to_json(rows)
 
+    @classmethod
+    def insert(cls, **kwargs) -> None:
+        # _object = cls(**kwargs)
+        pass
+
 
 class User(Base, Mixin):  # noqa: D101
     __tablename__ = 'user'

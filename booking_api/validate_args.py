@@ -17,6 +17,8 @@ class Arguments(Enum):
     hotel_put = {'booking_id', 'apartaments_id', 'new_date_in', 'new_date_out'}
     booking_delete = {'booking_id'}
 
+    add_hotel = {'name', 'stars', 'rating', 'price', 'city', 'extended_rating'}
+
     @classmethod
     def members(cls):
         """Return all class attributes."""
