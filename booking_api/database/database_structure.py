@@ -10,7 +10,7 @@ from werkzeug.local import LocalProxy
 from booking_api.app import cache
 from booking_api.constants import CACHE_DEFAULT_TIMOUT_DB as timeout_db
 from booking_api.constants import SQL_STRING
-from booking_api.validate_args import prepare_args
+from booking_api.validate_args import prepare_args, validate_args
 
 Base: Any = declarative_base()
 
@@ -48,11 +48,6 @@ class Mixin():
 
         return cls.to_json(rows)
 
-    @classmethod
-    def insert(cls, **kwargs) -> None:
-        # _object = cls(**kwargs)
-        pass
-
 
 class User(Base, Mixin):  # noqa: D101
     __tablename__ = 'user'
@@ -77,6 +72,35 @@ class Booking(Base, Mixin):  # noqa: D101
     apartament_id = Column(Integer, ForeignKey('apartament.apartament_id'), nullable=False)
     date_in = Column(DateTime, nullable=False)
     date_out = Column(DateTime, nullable=False)
+
+    @classmethod
+    def create(cls, request: LocalProxy) -> str:
+        args = validate_args(request)
+        try:
+            session.add(cls(**args))
+            session.commit()
+            return f"Added booking with {args}"
+        except Exception as ex:
+            session.rollback()
+            return f"Cant create booking. Maybe there is no user, hotel or apartaments id. Exception: {ex}"
+
+    @classmethod
+    def delete(cls, request: LocalProxy) -> str:
+        args = validate_args(request)
+        booking = session.query(cls).filter_by(**args).first()
+        try:
+            session.delete(booking)
+            session.commit()
+            return f"Deleted with id {args}"
+        except Exception as ex:
+            session.rollback()
+            return "Error while deleting, maybe booking with several id already does not exist." \
+                   f"Exception: {ex}"
+
+    @classmethod
+    def update(cls, request: LocalProxy) -> None:
+        args = validate_args(request)
+        session.query(cls).update(args)
 
 
 class Hotel(Base, Mixin):  # noqa: D101

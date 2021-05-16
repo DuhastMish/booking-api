@@ -2,26 +2,26 @@
 import io
 from random import choice, randint, uniform
 
-from flask import jsonify, request, send_file
+from flask import jsonify, redirect, request, send_file, url_for
 
 from booking_api.app import app, cache, celery, local_storage_manager
-from booking_api.constants import CACHE_DEFAULT_TIMEOUT as timeout
+from booking_api.constants import CACHE_DEFAULT_TIMEOUT as ctimeout
 from booking_api.database.database_structure import (Apartament, Booking,
                                                      ExtendedRating, Hotel,
                                                      User, session)
 
 
 @app.route('/')
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def index():
     """Return index page."""
     # Checks that redis cache works.
     from datetime import datetime
-    return f"Already cached in {datetime.now().time().replace(microsecond=0)} for {timeout} sec."
+    return f"Already cached in {datetime.now().time().replace(microsecond=0)} for {ctimeout} sec."
 
 
 @app.route('/api/hotels', methods=['GET'])
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def get_hotels():
     """Return all hotels with several parameters."""
     hotels = Hotel.get_all(request)
@@ -30,7 +30,7 @@ def get_hotels():
 
 
 @app.route('/api/apartaments', methods=['GET'])
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def get_apartaments():
     """Return all apartaments with several parameters."""
     apartaments = Apartament.get_all(request)
@@ -39,7 +39,7 @@ def get_apartaments():
 
 
 @app.route('/api/extended_rating', methods=['GET'])
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def get_extended_rating():
     """Return extended rating by hotel_id."""
     ext_rating = ExtendedRating.get_all(request)
@@ -48,7 +48,7 @@ def get_extended_rating():
 
 
 @app.route('/api/booking', methods=['GET'])
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def get_booking():
     """Return all bookings by user_id."""
     booking = Booking.get_all(request)
@@ -57,7 +57,7 @@ def get_booking():
 
 
 @app.route('/api/users', methods=['GET'])
-@cache.cached(timeout=timeout)
+@cache.cached(timeout=ctimeout)
 def get_users():
     """Return all users with several parameters."""
     users = User.get_all(request)
@@ -76,29 +76,32 @@ def get_documentation():
     )
 
 
-@app.route('/api/add_booking', methods=['POST'])
-def add_booking():
+@app.route('/api/booking/create')
+def create_booking():
     """Book hotel rooms."""
-    return 'Hotels received with args'
+    Booking.create(request)
+    return redirect(url_for('get_booking'))
 
 
-@app.route('/api/add_hotel', methods=['POST'])
-def add_hotel():
-    """Add hotel rooms."""
-    return 'Hotels received with args'
+@app.route('/api/booking/update')
+def update_booking():
+    """Book hotel rooms."""
+    Booking.update(request)
+    return redirect(url_for('get_booking'))
 
 
-@app.route('/api/del_booking', methods=['DELETE'])
+@app.route('/api/booking/delete')
 def delete_booking():
     """Delete booking."""
-    return 'Booking deleted with args'
+    Booking.delete(request)
+    return redirect(url_for('get_booking'))
 
 
 @app.route('/api/insert_pseudo', methods=['POST'])
 def insert_pseudo():
     """Insert pseudo hotels."""
     hotels_insert.delay()
-    return "Pseudo hotel added"
+    return redirect(url_for('api/hotels'))
 
 
 @celery.task(name='celery.insert_pseudo')

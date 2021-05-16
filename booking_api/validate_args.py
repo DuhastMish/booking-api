@@ -15,9 +15,10 @@ class Arguments(Enum):
     booking = {'user_id'}
     hotels_post = {'hotel_id', 'apartaments_id', 'date_in', 'date_out'}
     hotel_put = {'booking_id', 'apartaments_id', 'new_date_in', 'new_date_out'}
-    booking_delete = {'booking_id'}
 
-    add_hotel = {'name', 'stars', 'rating', 'price', 'city', 'extended_rating'}
+    delete = {'booking_id'}
+    create = {'booking_id', 'hotel_id', 'user_id', 'apartament_id', 'date_in', 'date_out'}
+    update = {'booking_id', 'date_in', 'date_out'}
 
     @classmethod
     def members(cls):
