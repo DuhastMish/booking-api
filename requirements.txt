@@ -1,5 +1,10 @@
 Flask
 sqlalchemy
+celery
+flask_caching
+redis
+psycopg2
+gunicorn
 
 # Development
 pre-commit
