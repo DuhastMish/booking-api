@@ -101,7 +101,7 @@ def delete_booking():
 def insert_pseudo():
     """Insert pseudo hotels."""
     hotels_insert.delay()
-    return redirect(url_for('api/hotels'))
+    return redirect(url_for('get_hotels'))
 
 
 @celery.task(name='celery.insert_pseudo')
