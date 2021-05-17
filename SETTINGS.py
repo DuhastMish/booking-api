@@ -1,6 +1,7 @@
 from booking_api.constants import SQL_STRING
 
-redis_url = 'redis://localhost:6379/0'
+redis_url = 'redis://:p1b0a30407c1aa1ce6f23b3a89d5bdb643548caf501acc3e89b607adbd943f563@'\
+            'ec2-54-228-38-233.eu-west-1.compute.amazonaws.com:8569'
 
 
 class Redis(object):  # noqa: D101, D100
