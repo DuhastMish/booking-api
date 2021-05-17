@@ -1,1 +1,1 @@
-web: python booking_api/runner:app
+web: gunicorn runner:app
