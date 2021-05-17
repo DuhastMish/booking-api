@@ -3,6 +3,7 @@ sqlalchemy
 celery
 flask_caching
 redis
+psycopg2
 
 # Development
 pre-commit
